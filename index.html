@@ -37,6 +37,8 @@
       </nav>
     </div>
 
+    <h1 class="text-center m-5 text-primary fw-">Bienvenido al sistema de Adivina el Año de Nacimiento</h1>
+
     <template v-if="is.new">
       <div class="row d-flex justify-content-center" id="new">
         <div class="col-md-6">
@@ -85,6 +87,13 @@
         <p v-if="mensajeMenor">🔞</p>
         <p v-if="mensajeMayor">👀</p>
         <p v-if="ganador ">🏆</p>
+
+        <!-- se mostrara cuando se verifique -->
+        <!-- <ul>
+          <li>Numero Intentos: {{contador}}</li>
+        </ul> -->
+
+
       </div>
     </template>
 

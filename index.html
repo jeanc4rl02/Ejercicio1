@@ -26,10 +26,10 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#">Crear Jugador</a>
+                <a class="nav-link" href="#new" @click="showCreatedPlayer">Crear Jugador</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Jugar</a>
+                <a class="nav-link" href="#play" @click="showPlay">Jugar</a>
               </li>
             </ul>
           </div>
@@ -38,7 +38,7 @@
     </div>
 
     <template v-if="is.new">
-      <div class="row d-flex justify-content-center">
+      <div class="row d-flex justify-content-center" id="new">
         <div class="col-md-6">
           <form>
             <legend><i class="bi bi-person-fill-add"></i> Nuevo Jugador</legend>
@@ -59,7 +59,32 @@
 
     <template v-if="is.play">
       <div class="row">
-        <h1>Hola2</h1>
+        <div class="row d-flex justify-content-center" id="play">
+          <div class="col-md-6">
+            <form>
+              <legend>Jugar</legend>
+              <div class="mb-3">
+                <label for="year" class="form-label">Ingrese Un Año Nacimiento </label>
+                <input id="year" type="number" class="form-control">
+              </div>
+              <button type="submit" class="btn btn-primary">Jugar <i class="bi bi-controller"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="pistas d-flex justify-content-center my-5">
+          <p>Si tu emoji es : </p>
+          <ul>
+            <li>🔞 Significa que tu numero es menor</li>
+            <li>👀Significa que tu numero es mayor</li>
+            <li>🏆Significa que tu numero es el Ganador🎉 </li>
+          </ul>
+        </div>
+
+        <p v-if="mensajeMenor">🔞</p>
+        <p v-if="mensajeMayor">👀</p>
+        <p v-if="ganador ">🏆</p>
       </div>
     </template>
 

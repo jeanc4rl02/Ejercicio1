@@ -3,8 +3,23 @@ var app = new Vue({
   data: {
     message: "Hola Vue!",
     is: {
-      new: true,
-      play: true,
+      new: false,
+      play: false,
+    },
+  },
+  methods: {
+    showCreatedPlayer() {
+      this.is = {
+        new: true,
+        play: false,
+      };
+    },
+
+    showPlay() {
+      this.is = {
+        new: false,
+        play: true,
+      };
     },
   },
 });

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 
+
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -29,7 +30,7 @@
                 <a class="nav-link" href="#new" @click="showCreatedPlayer">Crear Jugador</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#play" @click="showPlay">Jugar</a>
+                <a v-show=" usuarios.length>=5" class="nav-link" href="#play" @click="showPlay">Jugar</a>
               </li>
             </ul>
           </div>
@@ -42,17 +43,18 @@
     <template v-if="is.new">
       <div class="row d-flex justify-content-center" id="new">
         <div class="col-md-6">
-          <form>
+          <form @submit.prevent="addPlayers">
             <legend><i class="bi bi-person-fill-add"></i> Nuevo Jugador</legend>
             <div class="mb-3">
               <label for="nombre" class="form-label">Nombre</label>
-              <input id="nombre" type="text" class="form-control">
+              <input v-model="nombreIngresado" id="nombre" type="text" class="form-control" required>
             </div>
             <div class="mb-3">
               <label for="year" class="form-label">Año Nacimiento</label>
-              <input id="year" type="number" class="form-control">
+              <input v-model="anioJugador" id="year" type="number" class="form-control" required>
             </div>
-            <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i> Registrar
+            <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i>
+              Registrar
               Jugador</button>
           </form>
         </div>
@@ -89,9 +91,11 @@
         <p v-if="ganador ">🏆</p>
 
         <!-- se mostrara cuando se verifique -->
-        <ul>
+        <!-- <ul>
           <li>Jugador: {{name}} - Numero Intentos: {{contador}}</li>
-        </ul>
+        </ul> -->
+
+
 
 
       </div>
@@ -108,4 +112,4 @@
   <script src="./main.js"></script>
 </body>
 
-</html
+</html>

@@ -28,9 +28,6 @@
               <li class="nav-item">
                 <a class="nav-link" href="#new" @click="showCreatedPlayer">Crear Jugador</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#play" @click="showPlay">Jugar</a>
-              </li>
             </ul>
           </div>
         </div>
@@ -39,32 +36,20 @@
 
     <h1 class="text-center m-5 text-primary fw-">Bienvenido al sistema de Adivina el Año de Nacimiento</h1>
 
-    <template v-if="is.new">
-      <div class="row d-flex justify-content-center" id="new">
-        <div class="col-md-6">
-          <form>
-            <legend><i class="bi bi-person-fill-add"></i> Nuevo Jugador</legend>
-            <div class="mb-3">
-              <label for="nombre" class="form-label">Nombre</label>
-              <input id="nombre" type="text" class="form-control">
-            </div>
-            <div class="mb-3">
-              <label for="year" class="form-label">Año Nacimiento</label>
-              <input id="year" type="number" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i> Registrar
-              Jugador</button>
-          </form>
-        </div>
-      </div>
-    </template>
+    
 
-    <template v-if="is.play">
+    <template>
       <div class="row">
         <div class="row d-flex justify-content-center" id="play">
-          <div class="col-md-6">
-            <form>
-              <legend>Jugar</legend>
+          <div class="col-md-6 card">
+            <form class="card-body">
+              <legend>Cómo jugar:</legend>
+              <p>Ingrese una fecha en la casilla que aparece en el siguente apartado, luego de dar click en "Jugar" el sistema va a comparar el año ingresado con uno generado automáticamente. Si el emoji que aparece en pantalla es:</p>
+                <ul>
+                  <li>🔞 Significa que tu numero es menor.</li>
+                  <li>👀 Significa que tu numero es mayor.</li>
+                  <li>🏆 Significa que tu numero es el Ganador🎉.</li>
+                </ul>
               <div class="mb-3">
                 <label for="year" class="form-label">Ingrese Un Año Nacimiento </label>
                 <input id="year" type="number" class="form-control" v-model="anioIngresado">
@@ -73,35 +58,43 @@
                 </button>
                 <button type="submit" class="btn btn-secondary" @click.prevent="showPlayers">Mostrar Jugadores</button>
             </form>
+            <p>Numero Intentos: {{contador}}</p>
           </div>
         </div>
 
         <div class="pistas d-flex justify-content-center my-5">
-          <p v-if="mensajeMenor">🔞</p>
-          <p v-if="mensajeMayor">👀</p>
-          <p v-if="ganador">🏆</p>
-          <p>Si tu emoji es : </p>
-          <ul>
-            <li>🔞 Significa que tu numero es menor</li>
-            <li>👀Significa que tu numero es mayor</li>
-            <li>🏆Significa que tu numero es el Ganador🎉 </li>
-          </ul>
+          <h1 v-if="mensajeMenor">🔞</h1>
+          <h1 v-if="mensajeMayor">👀</h1>
+          <h1 v-if="ganador">🏆</h1>
         </div>
         <div class="alert alert-primary text-center" role="alert" v-if="pista">
           <p>Pista: el primer número del año es: {{primer}}, y el último es: {{ultimo}}.</p>
         </div>
         <div class="alert alert-success text-center" role="alert" v-if="ganador">
           Ganaste 😡
-        </div>
-        <div class="alert alert-danger text-center" role="alert" v-if="perdio">
-          Perdiste 🤡
           <div class="row">
             <div class="row d-flex justify-content-center" id="play">
               <div class="col-md-6">
                 <div class="mb-3">
                   <label for="name" class="form-label">Ingrese su nombre: </label>
                   <input id="name" type="text" class="form-control" v-model="nombreIngresado">
-                  <button type="submit" class="btn btn-primary" @click.prevent="agregarJugador">Agregar</i>
+                  <button type="submit" class="btn btn-primary" @click="agregarJugador">Agregar</i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-danger text-center" role="alert" v-if="perdio">
+          Perdiste 🤡
+          <div class="row">
+            <div class="row d-flex justify-content-center" id="play">
+              <div class="col-md-6">
+                    
+                <div class="mb-3">
+                  <label for="name" class="form-label">Ingrese su nombre: </label>
+                  <input id="name" type="text" class="form-control" v-model="nombreIngresado">
+                  <button type="submit" class="btn btn-primary" @click="agregarJugador">Agregar</i>
+                    
                 </div>
               </div>
             </div>
@@ -109,18 +102,54 @@
         </div>
 
         <!-- se mostrara cuando se verifique -->
-        <ul>
-          <li>Jugador: {{nombreIngresado}} - Numero Intentos: {{contador}}</li>
-        </ul>
+        
         <div v-if="mostrarJugadores">
-          <ul>
-            <li v-for="jugador in jugadores">Jugador: {{jugador.nombre}} - Numero Intentos: {{jugador.intentos}}</li>
-          </ul>
+          <div class="row">
+            <div class="row d-flex justify-content-center" id="play">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <table class="table table-striped table-bordered table-hover table-sm">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Intentos</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="jugador in jugadores">
+                        <th scope="row">{{jugador.nombre}}</th>
+                        <td>{{jugador.intentos}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          
         </div>
 
       </div>
     </template>
-
+    <template v-if="is.new">
+      <div class="row d-flex justify-content-center" id="new">
+        <div class="col-md-6 card">
+          <form class="card-body">
+            <legend><i class="bi bi-person-fill-add"></i> Nuevo Dato</legend>
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input id="nombre" type="text" class="form-control" v-model="nombreNuevo">
+            </div>
+            <div class="mb-3">
+              <label for="year" class="form-label" >Año Nacimiento</label>
+              <input id="year" type="number" class="form-control" v-model="anioNuevo">
+            </div>
+            <button type="submit" class="btn btn-primary" @click.prevent="addPlayers"><i class="bi bi-plus-circle-fill"></i> Registrar
+              Jugador</button>
+          </form>
+        </div>
+      </div>
+    </template>
   </div>
 
 

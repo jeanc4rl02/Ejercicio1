@@ -39,9 +39,10 @@ var app = new Vue({
     perdio: false,
     mostrarJugadores: false,
     nombreIngresado: "",
-    primer: null,
-    ultimo: null,
-    
+    primer: localStorage.getItem("primer"),
+    ultimo: localStorage.getItem("ultimo"),
+    nombreNuevo: "",
+    anioNuevo: null,
   },
   methods: {
     generarAño(){
@@ -52,6 +53,8 @@ var app = new Vue({
       this.ultimo = anioRandom.charAt(anioRandom.length - 1);
       console.log(this.primer, this.ultimo);
       localStorage.setItem("anioRandom", this.anioRandom);
+      localStorage.setItem("primer", this.primer);
+      localStorage.setItem("ultimo", this.ultimo);
     },
     resetAnio(){
       localStorage.removeItem("anioRandom")
@@ -85,6 +88,7 @@ var app = new Vue({
           this.ganador = true;
           this.contador += 1
           this.pista = false;
+          localStorage.removeItem("anioRandom")
         }
 
         if(this.contador >= 2){
@@ -96,6 +100,8 @@ var app = new Vue({
         this.perdio = true;
         this.pista = false;
         localStorage.removeItem("anioRandom")
+        localStorage.removeItem("primer")
+        localStorage.removeItem("ultimo")
       }
     },
 
@@ -106,13 +112,12 @@ var app = new Vue({
         nombre: this.nombreIngresado,
         intentos: this.contador
       })
-
+      window.location.reload();
     localStorage.setItem("jugadores", JSON.stringify(this.jugadores));
   },
   showCreatedPlayer() {
     this.is = {
-      new: true,
-      play: false,
+      new: !this.is.new,
     };
   },
   showPlay() {
@@ -124,7 +129,33 @@ var app = new Vue({
   showPlayers() {
     this.mostrarJugadores = !this.mostrarJugadores;
     console.log(this.mostrarJugadores);
-  }
+  },
+  addPlayers() {
+    const verificarUsers = () => {
+      let existeJugador = this.usuarios.find(
+        (el) => el.name.toLowerCase() === this.nombreNuevo.toLowerCase()
+      );
+
+      if (this.nombreNuevo === "" || this.anioNuevo === "") {
+        alert("Todos los campos son obligatorios");
+        return false;
+      }
+      if (existeJugador) {
+        alert("El nombre  ya existe, por favor ingrese otro");
+        return false;
+      } else {
+        this.usuarios.push({
+          name: this.nombreNuevo,
+          year: this.anioNuevo,
+        });
+
+        localStorage.setItem("usuarios", JSON.stringify(this.usuarios));
+        this.nombreNuevo = "";
+        this.anioNuevo = "";
+      }
+    };
+    verificarUsers();
+  },
 
   },
   

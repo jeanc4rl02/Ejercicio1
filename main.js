@@ -27,6 +27,7 @@ var app = new Vue({
       new: false,
       play: false,
     },
+    jugadores: [],
     anioRandom: 0,
     anioIngresado: 1985,
     contador: 0,
@@ -35,6 +36,7 @@ var app = new Vue({
     ganador: false,
     pista: false,
     perdio: false,
+    nombreIngresado: "",
 
   },
   methods: {
@@ -70,15 +72,13 @@ var app = new Vue({
       } else {
         this.perdio = true;
       }
-      
-      console.log("año "+this.anioRandom);
-      console.log("es mayor "+this.mensajeMayor);
-      console.log("es menor "+this.mensajeMenor);
-      console.log("ganaste "+this.ganador);
-      console.log("pista "+this.pista);
-      console.log(localStorage.getItem("anioRandom"));
-      console.log("perdió? "+this.perdio);
     }
+  },
+  agregarJugador(){
+    this.jugadores.push({
+      nombre: this.nombreIngresado,
+      intentos: this.contador
+    });
   },
   showCreatedPlayer() {
     this.is = {

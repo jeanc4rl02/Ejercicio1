@@ -70,8 +70,8 @@
                 <input id="year" type="number" class="form-control" v-model="anioIngresado">
               </div>
                 <button type="submit" class="btn btn-primary" @click.prevent="jugar" :disabled="perdio || ganador" >Jugar <i class="bi bi-controller"></i>
-                <button type="submit" class="btn btn-secondary" @click="resetAnio">Volver a jugar <i class="bi bi-controller"></i>
-              </button>
+                </button>
+                <button type="submit" class="btn btn-secondary" @click.prevent="showPlayers">Mostrar Jugadores</button>
             </form>
           </div>
         </div>
@@ -87,7 +87,9 @@
             <li>🏆Significa que tu numero es el Ganador🎉 </li>
           </ul>
         </div>
-
+        <div class="alert alert-primary text-center" role="alert" v-if="pista">
+          <p>Pista: el primer número del año es: {{primer}}, y el último es: {{ultimo}}.</p>
+        </div>
         <div class="alert alert-success text-center" role="alert" v-if="ganador">
           Ganaste 😡
         </div>
@@ -110,7 +112,11 @@
         <ul>
           <li>Jugador: {{nombreIngresado}} - Numero Intentos: {{contador}}</li>
         </ul>
-
+        <div v-if="mostrarJugadores">
+          <ul>
+            <li v-for="jugador in jugadores">Jugador: {{jugador.nombre}} - Numero Intentos: {{jugador.intentos}}</li>
+          </ul>
+        </div>
 
       </div>
     </template>

@@ -35,19 +35,27 @@ var app = new Vue({
     mensajeMenor: false,
     ganador: false,
     pista: false,
+    pistaRender: "",
     perdio: false,
+    mostrarJugadores: false,
     nombreIngresado: "",
-
+    primer: null,
+    ultimo: null,
+    
   },
   methods: {
     generarAño(){
       let random = Math.floor(Math.random()*(this.usuarios.length));
       this.anioRandom = this.usuarios[random].year
+      let anioRandom = this.anioRandom.toString();
+      this.primer = anioRandom.charAt(0);
+      this.ultimo = anioRandom.charAt(anioRandom.length - 1);
+      console.log(this.primer, this.ultimo);
       localStorage.setItem("anioRandom", this.anioRandom);
     },
     resetAnio(){
       localStorage.removeItem("anioRandom")
-      window.location = "./index.html#new";
+      window.location = "./index.html#play";
     },
     jugar() {
       if(localStorage.getItem("anioRandom") == null){
@@ -76,6 +84,7 @@ var app = new Vue({
           this.mensajeMayor = false;
           this.ganador = true;
           this.contador += 1
+          this.pista = false;
         }
 
         if(this.contador >= 2){
@@ -85,15 +94,18 @@ var app = new Vue({
         }
       } else {
         this.perdio = true;
+        this.pista = false;
         localStorage.removeItem("anioRandom")
       }
     },
 
     agregarJugador(){
-    this.jugadores.push({
-      nombre: this.nombreIngresado,
-      intentos: this.contador
-    })
+      this.jugadores = [];
+      this.jugadores = JSON.parse(localStorage.getItem("jugadores")) || []
+      this.jugadores.push({
+        nombre: this.nombreIngresado,
+        intentos: this.contador
+      })
 
     localStorage.setItem("jugadores", JSON.stringify(this.jugadores));
   },
@@ -108,6 +120,10 @@ var app = new Vue({
       new: false,
       play: true,
     };
+  },
+  showPlayers() {
+    this.mostrarJugadores = !this.mostrarJugadores;
+    console.log(this.mostrarJugadores);
   }
 
   },

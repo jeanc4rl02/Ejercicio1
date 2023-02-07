@@ -27,9 +27,9 @@ var app = new Vue({
       new: false,
       play: false,
     },
-    jugadores: [],
-    anioRandom: 0,
-    anioIngresado: 1985,
+    jugadores: JSON.parse(localStorage.getItem("jugadores")),
+    anioRandom: localStorage.getItem("anioRandom"),
+    anioIngresado: null,
     contador: 0,
     mensajeMayor: false,
     mensajeMenor: false,
@@ -45,40 +45,57 @@ var app = new Vue({
       this.anioRandom = this.usuarios[random].year
       localStorage.setItem("anioRandom", this.anioRandom);
     },
+    resetAnio(){
+      localStorage.removeItem("anioRandom")
+      window.location = "./index.html#new";
+    },
     jugar() {
+      if(localStorage.getItem("anioRandom") == null){
+        this.generarAño();
+        this.validaciones();
+      } else {
+        this.validaciones();
+      }
+      
+      console.log("click en jugar");
+    },
+    validaciones(){
       if(this.contador < 7){
-          if(this.anioIngresado > this.anioRandom){
-          this.mensajeMenor = false;
-          this.mensajeMayor = true;
+        if(this.anioIngresado > this.anioRandom){
+        this.mensajeMenor = false;
+        this.mensajeMayor = true;
+        this.ganador = false;
+        this.contador += 1
+        } else if(this.anioIngresado < this.anioRandom){
+          this.mensajeMenor = true;
+          this.mensajeMayor = false;
           this.ganador = false;
           this.contador += 1
-          } else if(this.anioIngresado < this.anioRandom){
-            this.mensajeMenor = true;
-            this.mensajeMayor = false;
-            this.ganador = false;
-            this.contador += 1
-          } else {
-            this.mensajeMenor = false;
-            this.mensajeMayor = false;
-            this.ganador = true;
-            this.contador += 1
-          }
+        } else {
+          this.mensajeMenor = false;
+          this.mensajeMayor = false;
+          this.ganador = true;
+          this.contador += 1
+        }
 
-          if(this.contador >= 2){
-            this.pista = true;
-          } else {
-            this.pista = false;
-          }
+        if(this.contador >= 2){
+          this.pista = true;
+        } else {
+          this.pista = false;
+        }
       } else {
         this.perdio = true;
+        localStorage.removeItem("anioRandom")
       }
-    }
-  },
-  agregarJugador(){
+    },
+
+    agregarJugador(){
     this.jugadores.push({
       nombre: this.nombreIngresado,
       intentos: this.contador
-    });
+    })
+
+    localStorage.setItem("jugadores", JSON.stringify(this.jugadores));
   },
   showCreatedPlayer() {
     this.is = {
@@ -92,4 +109,7 @@ var app = new Vue({
       play: true,
     };
   }
+
+  },
+  
 })

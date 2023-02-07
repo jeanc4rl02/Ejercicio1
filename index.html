@@ -67,15 +67,19 @@
               <legend>Jugar</legend>
               <div class="mb-3">
                 <label for="year" class="form-label">Ingrese Un Año Nacimiento </label>
-                <input id="year" type="number" class="form-control">
+                <input id="year" type="number" class="form-control" v-model="anioIngresado">
               </div>
-              <button type="submit" class="btn btn-primary">Jugar <i class="bi bi-controller"></i>
+                <button type="submit" class="btn btn-primary" @click.prevent="jugar" :disabled="perdio || ganador" >Jugar <i class="bi bi-controller"></i>
+                <button type="submit" class="btn btn-secondary" @click="resetAnio">Volver a jugar <i class="bi bi-controller"></i>
               </button>
             </form>
           </div>
         </div>
 
         <div class="pistas d-flex justify-content-center my-5">
+          <p v-if="mensajeMenor">🔞</p>
+          <p v-if="mensajeMayor">👀</p>
+          <p v-if="ganador">🏆</p>
           <p>Si tu emoji es : </p>
           <ul>
             <li>🔞 Significa que tu numero es menor</li>
@@ -84,13 +88,27 @@
           </ul>
         </div>
 
-        <p v-if="mensajeMenor">🔞</p>
-        <p v-if="mensajeMayor">👀</p>
-        <p v-if="ganador ">🏆</p>
+        <div class="alert alert-success text-center" role="alert" v-if="ganador">
+          Ganaste 😡
+        </div>
+        <div class="alert alert-danger text-center" role="alert" v-if="perdio">
+          Perdiste 🤡
+          <div class="row">
+            <div class="row d-flex justify-content-center" id="play">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="name" class="form-label">Ingrese su nombre: </label>
+                  <input id="name" type="text" class="form-control" v-model="nombreIngresado">
+                  <button type="submit" class="btn btn-primary" @click.prevent="agregarJugador">Agregar</i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <!-- se mostrara cuando se verifique -->
         <ul>
-          <li>Jugador: {{name}} - Numero Intentos: {{contador}}</li>
+          <li>Jugador: {{nombreIngresado}} - Numero Intentos: {{contador}}</li>
         </ul>
 
 
